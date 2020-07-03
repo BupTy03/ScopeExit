@@ -32,13 +32,13 @@ void ScopeExitDeallocatingMatrix()
     };
 
     // allocating matrix of size (strlen(s1) + 1) x (strlen(s2) + 1)
-    const size_t count_rows = strlen(s1) + 1;
-    const size_t count_columns = strlen(s2) + 1;
+    const size_t countRows = strlen(s1) + 1;
+    const size_t countColumns = strlen(s2) + 1;
 
-    int** mtx = (int**)calloc(count_rows, sizeof(int*));
-    int* const* lastRow = mtx + count_rows;
+    int** mtx = (int**)calloc(countRows, sizeof(int*));
+    int* const* lastRow = mtx + countRows;
     for(int** row = mtx; row != lastRow; ++row)
-        *row = (int*)calloc(count_columns, sizeof(int));
+        *row = (int*)calloc(countColumns, sizeof(int));
 
     SCOPE_EXIT
     {
@@ -53,15 +53,15 @@ void ScopeExitDeallocatingMatrix()
     // Wagner-Fischer algorithm
     mtx[0][0] = 0;
 
-    for(int row = 1; row < count_rows; ++row)
+    for(int row = 1; row < countRows; ++row)
         mtx[row][0] = row;
 
-    for(int col = 1; col < count_columns; ++col)
+    for(int col = 1; col < countColumns; ++col)
         mtx[0][col] = col;
 
-    for(int i = 1; i < count_rows; ++i)
+    for(int i = 1; i < countRows; ++i)
     {
-        for(int j = 1; j < count_columns; ++j)
+        for(int j = 1; j < countColumns; ++j)
         {
             if(s1[i - 1] == s2[j - 1])
                 mtx[i][j] = mtx[i - 1][j - 1];
@@ -74,7 +74,7 @@ void ScopeExitDeallocatingMatrix()
     printf("[ ");
     for(const int* const* row = mtx; row != lastRow; ++row)
     {
-        const int* const lastColumn = *row + count_columns;
+        const int* const lastColumn = *row + countColumns;
         printf(row == mtx ? "[ " : "  [ ");
         for(const int* col = *row; col != lastColumn; ++col)
             printf(col == lastColumn - 1 ? "%d ]" : "%d, ", *col);
@@ -84,7 +84,7 @@ void ScopeExitDeallocatingMatrix()
     puts(" ]");
 
     printf("Levenshtein distance between '%s' and '%s' is %d\n",
-            s1, s2, mtx[count_rows - 1][count_columns - 1]);
+            s1, s2, mtx[countRows - 1][countColumns - 1]);
 }
 
 void ScopeExitTrowingExceptionTest()
